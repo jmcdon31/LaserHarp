@@ -1,0 +1,18 @@
+NET clk LOC=B8;
+#NET seg LOC=;
+#NET an LOC=;
+NET i2s_mclk LOC=C6;
+NET i2s_lrclk LOC=B6;
+NET i2s_sclk LOC=C5;
+NET i2s_data LOC=B7;
+
+
+NET btn LOC=G12;
+NET swts(7) LOC=N3;
+NET swts(6) LOC=E2;
+NET swts(5) LOC=F3;
+NET swts(4) LOC=G3;
+NET swts(3) LOC=B4;
+NET swts(2) LOC=K3;
+NET swts(1) LOC=L3;
+NET swts(0) LOC=P11;
