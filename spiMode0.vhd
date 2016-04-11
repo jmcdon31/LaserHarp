@@ -1,44 +1,8 @@
---/////////////////////////////////////////////////////////////////////////////////////
--- Company: Digilent Inc.
--- Engineer: Josh Sackos
--- 
--- Create Date:    07/11/2012
--- Module Name:    spiMode0
--- Project Name: 	 PmodJSTK_Demo
--- Target Devices: Nexys3
--- Tool versions:  ISE 14.1
--- Description: This module provides the interface for sending and receiving data
---					 to and from the PmodJSTK, SPI mode 0 is used for communication.  The
---					 master (Nexys3) reads the data on the MISO input on rising edges, the
---					 slave (PmodJSTK) reads the data on the MOSI output on rising edges.
---					 Output data to the slave is changed on falling edges, and input data
---					 from the slave changes on falling edges.
---
---					 To initialize a data transfer between the master and the slave simply
---					 assert the sndRec input.  While the data transfer is in progress the
---					 BUSY output is asserted to indicate to other componenets that a data
---					 transfer is in progress.  Data to send to the slave is input on the 
---					 DIN input, and data read from the slave is output on the DOUT output.
---
---					 Once a sndRec signal has been received five bytes of data will be sent
---					 to the PmodJSTK, and five bytes will be read from the PmodJSTK.  The
---					 data that is sent comes from the DIN input.  For more information on
---					 the contents of the bytes being sent/received see page 2 in the
---					 PmodJSTK reference manual found at the link provided below.
---
---					 http://www.digilentinc.com/Data/Products/XUPV2P-COVERS/PmodJSTK_rm_RevC.pdf
---					 
---					 
---
--- Revision History: 
--- 						Revision 0.01 - File Created (Josh Sackos)
---/////////////////////////////////////////////////////////////////////////////////////
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 use IEEE.std_logic_arith.all;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
-
 
 entity spiMode0 is
     Port ( CLK : in  STD_LOGIC;									-- 100Mhz clock
@@ -53,11 +17,6 @@ entity spiMode0 is
 end spiMode0;
 
 architecture Behavioral of spiMode0 is
-					  
---  ===================================================================================
--- 							  			Signals and Constants
---  ===================================================================================
-
 		-- FSM States
 		type state_type is (Idle, Init, RxTx, Done);
 
@@ -70,24 +29,15 @@ architecture Behavioral of spiMode0 is
 
 		signal CE : STD_LOGIC := '0';													-- Clock enable, controls serial
 																								-- clock signal sent to slave
-			
---  ===================================================================================
--- 							  				Implementation
---  ===================================================================================
 begin			
-
 			-- Serial clock output, allow if clock enable asserted
 			SCLK <= CLK when (CE = '1') else '0';
 			-- Master out slave in, value always stored in MSB of write shift register
 			MOSI <= wSR(7);
 			-- Connect data output bus to read shift register
 			DOUT <= rSR;
-	
-			---------------------------------------
+
 			--			 Write Shift Register
-			-- 	slave reads on rising edges,
-			-- change output data on falling edges
-			---------------------------------------
 			process(CLK, RST) begin
 					if(RST = '1') then
 							wSR <= X"00";
@@ -111,14 +61,7 @@ begin
 					end if;
 			end process;
 
-
-
-
-			---------------------------------------
 			--			 Read Shift Register
-			-- 	master reads on rising edges,
-			-- slave changes data on falling edges
-			---------------------------------------
 			process(CLK, RST) begin
 					if(RST = '1') then
 							rSR <= X"00";
@@ -141,11 +84,8 @@ begin
 							end case;
 					end if;
 			end process;
-			
 
-		--------------------------------
 		--		   State Register
-		--------------------------------
 		STATE_REGISTER: process(CLK, RST) begin
 				if (RST = '1') then
 						STATE <= Idle;
@@ -154,11 +94,7 @@ begin
 				end if;
 		end process;
 
-		
-
-		--------------------------------
 		--		Output Logic/Assignment
-		--------------------------------
 		OUTPUT_LOGIC: process (CLK, RST)
 		begin
 				if(RST = '1') then
@@ -208,9 +144,7 @@ begin
 				end if;
 		end process;
 
-		--------------------------------
 		--		  Next State Logic
-		--------------------------------
 		NEXT_STATE_LOGIC: process (sndRec, bitCount, STATE)
 		begin
 				-- Define default state to avoid latches
