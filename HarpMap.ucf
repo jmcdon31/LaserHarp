@@ -15,18 +15,19 @@ NET i2s_lrclk LOC=A13;
 NET i2s_sclk LOC=C13;
 NET i2s_data LOC=D12;
 NET btn LOC=G12;
-NET swts(7) LOC=N3;
-NET swts(6) LOC=E2;
-NET swts(5) LOC=F3;
-NET swts(4) LOC=G3;
-NET swts(3) LOC=B4;
-NET swts(2) LOC=K3;
-NET swts(1) LOC=L3;
-NET swts(0) LOC=P11;
+NET "btn" CLOCK_DEDICATED_ROUTE = FALSE;
+# NET swts(7) LOC=N3;
+# NET swts(6) LOC=E2;
+# NET swts(5) LOC=F3;
+# NET swts(4) LOC=G3;
+# NET swts(3) LOC=B4;
+# NET swts(2) LOC=K3;
+# NET swts(1) LOC=L3;
+# NET swts(0) LOC=P11;
 
 
 # light Sensor module
-NET SS LOC=C6;
-NET MOSI LOC=B6;
-NET MISO LOC=C5;
-NET SCLKS LOC=B7;
+# NET SS LOC=C6;
+# NET MOSI LOC=B6;
+# NET MISO LOC=C5;
+# NET SCLKS LOC=B7;

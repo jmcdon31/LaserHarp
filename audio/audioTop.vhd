@@ -2,14 +2,14 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
-entity i2s_top is
+entity audioOut is
    port (clk 	: in  STD_LOGIC;
-		motor   : in  STD_LOGIC_VECTOR(6 downto 0);
+		motor   : in  bit_vector(6 downto 0);
 		light   : in  STD_LOGIC;
-         JA 	: out STD_LOGIC_VECTOR(3 downto 0));
-	end i2s_top;
+        iopins 	: out STD_LOGIC_VECTOR(3 downto 0));
+	end audioOut;
 
-architecture Behavioral of i2s_top is
+architecture Behavioral of audioOut is
     component i2s_output is
     Port ( clk       : in   STD_LOGIC;
            data_l    : in   STD_LOGIC_VECTOR (15 downto 0);
@@ -32,10 +32,10 @@ begin
 						 data_l=>data,
 						 data_r=>data,
 						 accepted=>accepted,
-						 i2s_mclk=>ja(0),
-						 i2s_lrclk=>ja(1),
-						 i2s_sclk=>ja(2),
-						 i2s_sd=>ja(3));
+						 i2s_mclk=>iopins(0),
+						 i2s_lrclk=>iopins(1),
+						 i2s_sclk=>iopins(2),
+						 i2s_sd=>iopins(3));
 
     --Note order: CDEFGAB
    pitch <= 110 when motor(0) = '1' and light = '1' else
