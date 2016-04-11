@@ -1,6 +1,11 @@
-NET clk LOC=B8;
-#NET seg LOC=;
-#NET an LOC=;
+NET "clock" LOC = B8;
+NET "turnon" LOC = P11;
+NET "enable" LOC = J3;
+NET "direction" LOC = A3;
+NET "turn" LOC = B2;
+NET "olight" LOC = C9;
+
+
 NET i2s_mclk LOC=C6;
 NET i2s_lrclk LOC=B6;
 NET i2s_sclk LOC=C5;
