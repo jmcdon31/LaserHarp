@@ -1,0 +1,15 @@
+# Audio output module
+NET clk LOC=B8;
+NET JA(0) LOC=C12;
+NET JA(1) LOC=A13;
+NET JA(2) LOC=C13;
+NET JA(3) LOC=D12;
+NET light LOC=G12;
+NET "light" CLOCK_DEDICATED_ROUTE = FALSE;
+NET motor(6) LOC=E2;
+NET motor(5) LOC=F3;
+NET motor(4) LOC=G3;
+NET motor(3) LOC=B4;
+NET motor(2) LOC=K3;
+NET motor(1) LOC=L3;
+NET motor(0) LOC=P11;
