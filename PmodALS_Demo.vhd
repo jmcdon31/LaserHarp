@@ -9,7 +9,7 @@ entity PmodALS_Demo is
            RST : in  STD_LOGIC;								
            MISO : in  STD_LOGIC;								
            SW : in  STD_LOGIC_VECTOR (2 downto 0);
-			  SWT : in STD_LOGIC;
+			  SET : in STD_LOGIC;
            SS : out  STD_LOGIC;								
            MOSI : out  STD_LOGIC;							
            SCLK : out  STD_LOGIC;				
@@ -87,10 +87,10 @@ begin
 
 			--Binary output from ALS
 			posData <= alsData(37 downto 28);
-			baseline <= alsData(37 downto 28) when SWT = '0';
+			baseline <= alsData(37 downto 28) when SET = '0';
 			
-			OSIG <= '0' when SWT = '0' or (to_integer(signed(posData)) <= to_integer(signed(baseline))) else
-					  '1' when SWT = '1' and (to_integer(signed(posData)) > to_integer(signed(baseline)));
+			OSIG <= '0' when SET = '0' or (to_integer(signed(posData)) <= to_integer(signed(baseline))) else
+					  '1' when SET = '1' and (to_integer(signed(posData)) > to_integer(signed(baseline)));
 
 end Behavioral;
 

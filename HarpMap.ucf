@@ -1,4 +1,5 @@
 NET "clock" LOC = B8;
+NET "reset" LOC = G12;
 
 #motor control Module
 NET "turnon" LOC = P11;
@@ -14,20 +15,26 @@ NET i2s_mclk LOC=C12;
 NET i2s_lrclk LOC=A13;
 NET i2s_sclk LOC=C13;
 NET i2s_data LOC=D12;
-NET btn LOC=G12;
-NET "btn" CLOCK_DEDICATED_ROUTE = FALSE;
-# NET swts(7) LOC=N3;
-# NET swts(6) LOC=E2;
-# NET swts(5) LOC=F3;
-# NET swts(4) LOC=G3;
-# NET swts(3) LOC=B4;
-# NET swts(2) LOC=K3;
-# NET swts(1) LOC=L3;
-# NET swts(0) LOC=P11;
+NET swts(3) LOC=F3;
+NET swts(2) LOC=G3;
+NET swts(1) LOC=B4;
+NET swts(0) LOC=K3;
 
 
-# light Sensor module
-# NET SS LOC=C6;
-# NET MOSI LOC=B6;
-# NET MISO LOC=C5;
-# NET SCLKS LOC=B7;
+#light Sensor module
+NET "set" LOC=N3;
+NET ss LOC=C6;
+NET miso LOC=C5;
+NET sclk LOC=B7;
+Net "SEG<6>" LOC = M12;
+Net "SEG<5>" LOC = L13;
+Net "SEG<4>" LOC = P12;
+Net "SEG<3>" LOC = N11;
+Net "SEG<2>" LOC = N14;
+Net "SEG<1>" LOC = H12;
+Net "SEG<0>" LOC = L14;
+Net "AN<3>" LOC = K14;
+Net "AN<2>" LOC = M13;
+Net "AN<1>" LOC = J12;
+Net "AN<0>" LOC = F12;
+NET "set" CLOCK_DEDICATED_ROUTE = FALSE;
