@@ -8,10 +8,12 @@ entity PmodALS_Demo is
     Port ( CLK : in  STD_LOGIC;								
            RST : in  STD_LOGIC;								
            MISO : in  STD_LOGIC;								
-           SW : in  STD_LOGIC_VECTOR (2 downto 0);		
+           SW : in  STD_LOGIC_VECTOR (2 downto 0);
+			  SWT : in STD_LOGIC;
            SS : out  STD_LOGIC;								
            MOSI : out  STD_LOGIC;							
-           SCLK : out  STD_LOGIC;							
+           SCLK : out  STD_LOGIC;				
+			  OSIG : out STD_LOGIC;
            LED : out  STD_LOGIC_VECTOR (2 downto 0);	
            AN : out  STD_LOGIC_VECTOR (3 downto 0);	
            SEG : out  STD_LOGIC_VECTOR (6 downto 0)); 
@@ -47,6 +49,8 @@ architecture Behavioral of PmodALS_Demo is
 					  CLKOUT : inout STD_LOGIC
 			 );
 		end component;
+		
+		signal baseline : STD_LOGIC_VECTOR(9 downto 0);
 
 		signal sndData : STD_LOGIC_VECTOR(7 downto 0) := X"00";
 		signal sndRec : STD_LOGIC;
@@ -83,6 +87,10 @@ begin
 
 			--Binary output from ALS
 			posData <= alsData(37 downto 28);
+			baseline <= alsData(37 downto 28) when SWT = '0';
+			
+			OSIG <= '0' when SWT = '0' or (to_integer(signed(posData)) <= to_integer(signed(baseline))) else
+					  '1' when SWT = '1' and (to_integer(signed(posData)) > to_integer(signed(baseline)));
 
 end Behavioral;
 
