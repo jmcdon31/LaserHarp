@@ -14,7 +14,7 @@ architecture arch of lightControl is
 begin
 
 with position select
-   light <= '1' when "0001000",--"1000000" | "0000001", --| "0001000" | "0000001",
+   light <= '1' when "0001000" | "1000000" | "0000001", --| "0001000" | "0000001",
    '0' when others;
 
 end architecture ; -- arch
