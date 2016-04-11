@@ -2,34 +2,12 @@
 -- Company: Digilent Inc.
 -- Engineer: Josh Sackos
 -- 
--- Create Date:    07/11/2012
--- Module Name:    Binary_To_BCD
--- Project Name: 	 PmodJSTK_Demo
--- Target Devices: Nexys3
--- Tool versions:  ISE 14.1
--- Description: This module receives a 10 bit binary value and converts it to
---					 a packed binary coded decimal (BCD) using the shift add 3
---					 algorithm.
---
---					 The output consists of 4 BCD digits as follows:
---
---								BCDOUT[15:12]	- Thousands place
---								BCDOUT[11:8]	- Hundreds place
---								BCDOUT[7:4]		- Tens place
---								BCDOUT[3:0]		- Ones place
---
--- Revision History: 
--- 						Revision 0.01 - File Created (Josh Sackos)
---////////////////////////////////////////////////////////////////////////////////
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 use IEEE.std_logic_arith.all;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
---  ===================================================================================
---  								Define Module, Inputs and Outputs
---  ===================================================================================
 entity Binary_To_BCD is
     Port ( CLK : in  STD_LOGIC;										-- 100Mhz CLK
            RST : in  STD_LOGIC;										--	Reset
@@ -39,11 +17,6 @@ entity Binary_To_BCD is
 end Binary_To_BCD;
 
 architecture Behavioral of Binary_To_BCD is
-
---  ===================================================================================
--- 							  			Signals and Constants
---  ===================================================================================
-
 		-- Stores number of shifts executed
 		signal shiftCount : STD_LOGIC_VECTOR(4 downto 0) := "00000";
 		-- Temporary shift regsiter
@@ -54,15 +27,10 @@ architecture Behavioral of Binary_To_BCD is
 
 		-- Present state, Next State
 		signal STATE, NSTATE : state_type;
-			
---  ===================================================================================
--- 							  				Implementation
---  ===================================================================================
+
 begin
 
-		--------------------------------
 		--		   State Register
-		--------------------------------
 		STATE_REGISTER: process(CLK, RST) begin
 				if (RST = '1') then
 						STATE <= Idle;
@@ -71,10 +39,7 @@ begin
 				end if;
 		end process;
 
-		
-		--------------------------------
 		--		Output Logic/Assignment
-		--------------------------------
 		OUTPUT_LOGIC: process (CLK, RST)
 		begin
 				if(RST = '1') then
@@ -133,9 +98,7 @@ begin
 				end if;
 		end process;
 
-		--------------------------------
 		--		  Next State Logic
-		--------------------------------
 		NEXT_STATE_LOGIC: process (START, shiftCount, STATE)
 		begin
 				-- Define default state to avoid latches
