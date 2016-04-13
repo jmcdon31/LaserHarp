@@ -4,7 +4,7 @@ library ieee ;
 
 entity lightControl is
   port (
-  clk : in std_logic;
+  --clk : in std_logic;
   position : in bit_vector( 6 downto 0);
   light : out std_logic
   ) ;

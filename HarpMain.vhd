@@ -32,15 +32,19 @@ entity HarpMain is
 	  ss				: out STD_LOGIC;
 	  sclk			: out STD_LOGIC;
 	  an				: out STD_LOGIC_VECTOR(3 downto 0);
-	  seg 			: out STD_LOGIC_VECTOR(6 downto 0)
+	  seg 			: out STD_LOGIC_VECTOR(6 downto 0);
+
+
+    --position to leds
+    ledout : out bit_vector(6 downto 0)
   ) ;
 end entity ; -- HarpMain
 
 architecture arch of HarpMain is
 
 	constant NUM_STRS : integer := 3;
-	signal temp  : STD_LOGIC;
-	signal temp2 : STD_LOGIC_VECTOR(2 downto 0);
+	--signal temp  : STD_LOGIC;
+	--signal temp2 : STD_LOGIC_VECTOR(2 downto 0);
 
 	signal light_on : STD_LOGIC;
 
@@ -67,7 +71,7 @@ architecture arch of HarpMain is
 
 	component lightControl is
 	  port (
-		 clk : in std_logic;
+		 --clk : in std_logic;
 	  position : in bit_vector( 6 downto 0);
 	  light : out std_logic
 	  ) ;
@@ -88,10 +92,8 @@ architecture arch of HarpMain is
            SEG : out  STD_LOGIC_VECTOR (6 downto 0));
 	end component;
 
-	signal tempos : bit_vector(6 downto 0) := "0000000";
+	signal tempos : bit_vector(6 downto 0);
   signal clock50 : std_logic:= '0';
-
-	--signal fakecon : bit_vector(6 downto 0) := "0000000";
 
 begin
 	MC : motorControl
@@ -108,7 +110,7 @@ begin
 
 	lg : lightControl
 	port map (
-	  clk => clock,
+	  --clk => clock,
 	  position => tempos,
 	  light => olight
 	  );
@@ -134,10 +136,10 @@ begin
 				 SW=>"000",
 				 SET=>set,
 				 SS=>ss,
-				 MOSI=>temp,
+				 --MOSI=>temp,
 				 SCLK=>sclk,
 				 OSIG=>light_on,
-				 LED=>temp2,
+				 --LED=>temp2,
 				 AN=>an,
 				 SEG=>seg);
 
@@ -148,5 +150,6 @@ begin
   end if ;
 end process ; -- clockdiv
 
+ledout <= tempos;
 
 end architecture ; -- arch

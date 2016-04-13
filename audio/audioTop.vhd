@@ -41,8 +41,8 @@ begin
     --Note order: CDEFGAB
 
    pitch <= 110 when motor(0) = '1' and light = '1' else
-            --99  when motor(3) = '1' and light = '1' else
-            --62  when motor(6) = '1' and light = '1' else
+            99  when motor(3) = '1' and light = '1' else
+            62  when motor(6) = '1' and light = '1' else
             -1 when reset = '1' else
             pitch; -- else
             ---1;
@@ -90,9 +90,9 @@ begin
 	p_clk: process(clk)
     begin
         if rising_edge(clk) then
-            if (reset = '1') then
-                count <= "00000000";
-            end if ;
+            --if (reset = '1') then
+            --    count <= "00000000";
+            --end if ;
             if accepted = '1' then
                 if count = pitch then
                     count <= (others => '0');

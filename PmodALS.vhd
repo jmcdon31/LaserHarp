@@ -9,7 +9,7 @@ entity PmodALS is
            MISO : in  STD_LOGIC;
            SS : out  STD_LOGIC;
            SCLK : out  STD_LOGIC;
-           MOSI : out  STD_LOGIC;
+           --MOSI : out  STD_LOGIC;
            DOUT : inout  STD_LOGIC_VECTOR (39 downto 0));
 end PmodALS;
 
@@ -27,20 +27,20 @@ architecture Behavioral of PmodALS is
 					  DOUT : inout STD_LOGIC_VECTOR(39 downto 0)
 			 );
 		end component;
-		
+
 		component spiMode0
 			 Port ( CLK : in  STD_LOGIC;
 					  RST : in  STD_LOGIC;
 					  sndRec : in STD_LOGIC;
 					  DIN : in  STD_LOGIC_VECTOR(7 downto 0);
 					  MISO : in  STD_LOGIC;
-					  MOSI : out STD_LOGIC;
+					  --MOSI : out STD_LOGIC;
 					  SCLK : out STD_LOGIC;
 					  BUSY : out STD_LOGIC;
 					  DOUT : out STD_LOGIC_VECTOR (7 downto 0)
 			 );
 		end component;
-	
+
 		component ClkDiv_2MHz
 			 Port ( CLK : in  STD_LOGIC;
 					  RST : in  STD_LOGIC;
@@ -69,14 +69,14 @@ begin
 					sndData=>sndData,
 					DOUT=>DOUT
 			);
-			
+
 			SPI_Int : spiMode0 port map(
 					CLK=>iSCLK,
 					RST=>RST,
 					sndRec=>getByte,
 					DIN=>sndData,
 					MISO=>MISO,
-					MOSI=>MOSI,
+					--MOSI=>MOSI,
 					SCLK=>SCLK,
 					BUSY=>BUSY,
 					DOUT=>RxData

@@ -23,12 +23,11 @@ architecture arch of motorControl is
 -- 50Mhz / 200 hz  = 250000. So we only want to TOGGLE for half that time --
 signal clk200   : std_logic:='0';
 signal clk20    : std_logic:='0';
-signal counter1 : integer range 1 to 1250000:= 1;
-signal counter2 : integer range 1 to 125000:= 1;
+signal counter1 : integer range 1 to 12500000:= 1;
+signal counter2 : integer range 1 to 1250000:= 1;
 signal motorpos : bit_vector( 6 downto 0 ) := "0000001";
 signal outdirection : std_logic := '1'; -- left =1 / 0 = right
-signal enstep : std_logic := '1';
-signal delay : boolean := false;
+signal enstep : std_logic := '0';
 begin
   -- the following process divides the clock into steps --
   -- NOTE: The clock has a 50% duty cycle --

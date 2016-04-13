@@ -26,8 +26,7 @@ architecture Behavioral of spiCtrl is
 
 			signal byteCnt : STD_LOGIC_VECTOR(2 downto 0) := "000";					-- Number bits read/written
 			constant byteEndVal : STD_LOGIC_VECTOR(2 downto 0) := "010";			-- Number of bytes to send/receive
-			signal tmpSR : STD_LOGIC_VECTOR(39 downto 0) := X"0000000000";			-- Temporary shift register to
-																										-- accumulate all five data bytes
+			signal tmpSR : STD_LOGIC_VECTOR(39 downto 0) := X"0000000000";			-- Temporary shift register to	-- accumulate all five data bytes
 begin
 
 		--		   State Register
@@ -50,7 +49,7 @@ begin
 						tmpSR <= X"0000000000";
 						DOUT <= X"0000000000";
 						byteCnt <= "000";
-						
+
 				elsif falling_edge(CLK) then
 
 						case (STATE) is
@@ -84,7 +83,7 @@ begin
 										tmpSR <= tmpSR;										-- Retain temporary data
 										DOUT <= DOUT;											-- Retain output data
 										byteCnt <= byteCnt;									-- Count
-									
+
 								when stCheck =>
 
 										SS <= '0';												-- Enable slave
@@ -102,9 +101,9 @@ begin
 										tmpSR <= tmpSR;										-- Retain temporary data
 										DOUT <= tmpSR;											-- Update output data
 										byteCnt <= byteCnt;									-- Do not count
-								
+
 						end case;
-						
+
 				end if;
 		end process;
 
@@ -134,7 +133,7 @@ begin
 								else
 										NSTATE <= stInit;
 								end if;
-								
+
 						-- Wait
 						when stWait =>
 
@@ -145,7 +144,7 @@ begin
 								else
 										NSTATE <= stWait;
 								end if;
-								
+
 						-- Check
 						when stCheck =>
 
@@ -165,8 +164,8 @@ begin
 										NSTATE <= stIdle;
 								else
 										NSTATE <= stDone;
-								end if;								
-				end case;      
+								end if;
+				end case;
 		end process;
 
 end Behavioral;
