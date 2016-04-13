@@ -36,11 +36,11 @@ begin
     if (rising_edge(clock)) then
       counter1 <= counter1 +1;
       counter2 <= counter2 +1;
-      if (counter1 = 1250000) then
+      if (counter1 = 12500000) then
         counter1 <= 1;
         clk200 <= not clk200;
       end if ;
-      if (counter2 = 125000) then
+      if (counter2 = 1250000) then
         counter2 <= 1;
         clk20 <= not clk20;
       end if ;

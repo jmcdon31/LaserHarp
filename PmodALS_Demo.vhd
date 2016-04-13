@@ -11,7 +11,7 @@ entity PmodALS_Demo is
            SW : in  STD_LOGIC_VECTOR (2 downto 0);
 			  SET : in STD_LOGIC;
            SS : out  STD_LOGIC;
-           --MOSI : out  STD_LOGIC;
+           MOSI : out  STD_LOGIC;
            SCLK : out  STD_LOGIC;
 			  OSIG : out STD_LOGIC;
            LED : out  STD_LOGIC_VECTOR (2 downto 0);
@@ -28,7 +28,7 @@ architecture Behavioral of PmodALS_Demo is
 					  MISO : in  STD_LOGIC;
 					  SS : out  STD_LOGIC;
 					  SCLK : out  STD_LOGIC;
-					  --MOSI : out  STD_LOGIC;
+					  MOSI : out  STD_LOGIC;
 					  DOUT : inout  STD_LOGIC_VECTOR (39 downto 0)
 			 );
 		end component;
@@ -66,7 +66,7 @@ begin
 					MISO=>MISO,
 					SS=>SS,
 					SCLK=>SCLK,
-					--MOSI=>MOSI,
+					MOSI=>MOSI,
 					DOUT=>alsData
 			);
 
@@ -86,8 +86,8 @@ begin
 
 			--Binary output from ALS
 			posData <= alsData(37 downto 28);
-			baseline <= alsData(37 downto 28) when SET = '0' else
-						baseline;
+			baseline <= alsData(37 downto 28) when SET = '0'; -- else
+				--baseline;
 
 			OSIG <= '1' when SET = '1'
 						and (to_integer(signed(posData)) > to_integer(signed(baseline))) else
