@@ -7,7 +7,7 @@ entity HarpMain is
 	  port (
 	  clock         : in std_logic;
 	  reset			 : in STD_LOGIC;
-	  
+
 	  --Motor Control Ports
 	  turnon        : in std_logic; -- toggle on switch --
 	  enable        : out std_logic; -- must be high for the motor to move. --
@@ -15,8 +15,8 @@ entity HarpMain is
 	  turn          : out std_logic;  -- toggle to turn in the current direction. --
 	  controlSignal : out std_logic; -- used as a reference for the motor driver --
 												-- digital inputs. --
-												
-	  --Laser Ports									
+
+	  --Laser Ports
 	  olight        : out std_logic;  -- laser beam --
 
 	  --Audio Output Ports
@@ -25,7 +25,7 @@ entity HarpMain is
 	  i2s_sclk      : out STD_LOGIC;
 	  i2s_data      : out STD_LOGIC;
 	  swts			 : in bit_vector(3 downto 0);
-  
+
 	  --Light Sensor Ports
 	  set				: in STD_LOGIC;
 	  miso 			: in STD_LOGIC;
@@ -41,11 +41,12 @@ architecture arch of HarpMain is
 	constant NUM_STRS : integer := 3;
 	signal temp  : STD_LOGIC;
 	signal temp2 : STD_LOGIC_VECTOR(2 downto 0);
-	
+
 	signal light_on : STD_LOGIC;
 
 	component audioOut
 	  port (clk     : in  STD_LOGIC;
+        reset     : in std_logic;
 			  motor   : in  bit_vector(6 downto 0);
 			  light   : in  STD_LOGIC; --enable signal
 			  iopins    : out STD_LOGIC_VECTOR(3 downto 0)); --
@@ -55,6 +56,7 @@ architecture arch of HarpMain is
 	  port (
 	  clock         : in std_logic;
 	  turnon        : in std_logic;
+    reset         : in std_logic;
 	  controlSignal : out std_logic;
 	  enable        : out std_logic;
 	  direction     : out std_logic;
@@ -70,24 +72,25 @@ architecture arch of HarpMain is
 	  light : out std_logic
 	  ) ;
   end component;
-  
+
   component PmodALS_Demo is
-    Port ( CLK : in  STD_LOGIC;								
-           RST : in  STD_LOGIC;								
-           MISO : in  STD_LOGIC;								
+    Port ( CLK : in  STD_LOGIC;
+           RST : in  STD_LOGIC;
+           MISO : in  STD_LOGIC;
            SW : in  STD_LOGIC_VECTOR (2 downto 0);
 			  SET : in STD_LOGIC;
-           SS : out  STD_LOGIC;								
-           MOSI : out  STD_LOGIC;							
-           SCLK : out  STD_LOGIC;				
+           SS : out  STD_LOGIC;
+           MOSI : out  STD_LOGIC;
+           SCLK : out  STD_LOGIC;
 			  OSIG : out STD_LOGIC;
-           LED : out  STD_LOGIC_VECTOR (2 downto 0);	
-           AN : out  STD_LOGIC_VECTOR (3 downto 0);	
-           SEG : out  STD_LOGIC_VECTOR (6 downto 0)); 
+           LED : out  STD_LOGIC_VECTOR (2 downto 0);
+           AN : out  STD_LOGIC_VECTOR (3 downto 0);
+           SEG : out  STD_LOGIC_VECTOR (6 downto 0));
 	end component;
 
 	signal tempos : bit_vector(6 downto 0) := "0000000";
-	
+  signal clock50 : std_logic:= '0';
+
 	--signal fakecon : bit_vector(6 downto 0) := "0000000";
 
 begin
@@ -95,6 +98,7 @@ begin
 	port map (
 	  clock => clock,
 	  turnon => turnon,
+    reset => reset,
 	  controlSignal => controlSignal,
 	  enable => enable,
 	  direction => direction,
@@ -110,7 +114,8 @@ begin
 	  );
 
 	i2s_int : audioOut port map
-        (clk=>clock,
+        (clk=>clock50,
+          reset=> reset,
          motor => tempos,
          light=>light_on,
          iopins(0)=>i2s_mclk,
@@ -121,7 +126,7 @@ begin
 --	fakecon(0) <= swts(3);
 --	fakecon(3) <= swts(2);
 --	fakecon(6) <= swts(1);
-	
+
 	als_int : PmodALS_Demo port map
 				(CLK=>clock,
 				 RST=>reset,
@@ -135,7 +140,13 @@ begin
 				 LED=>temp2,
 				 AN=>an,
 				 SEG=>seg);
-			 
+
+clockdiv : process( clock )
+begin
+  if rising_edge(clock) then
+    clock50 <= not clock50;
+  end if ;
+end process ; -- clockdiv
 
 
 end architecture ; -- arch
