@@ -26,7 +26,7 @@ architecture Behavioral of audioOut is
     signal data     : STD_LOGIC_VECTOR (15 downto 0) := x"c000";
 	 signal pitch	  : integer := -1;
     signal count    : unsigned(7 downto 0) := (others => '0');
-    signal timer    : integer range 0 to 50000000 := 0;
+    signal timer    : integer range 0 to 9000000 := 0;
 begin
 
 	i_output: i2s_output  port map
@@ -41,10 +41,10 @@ begin
 
     --Note order: CDEFGAB
 
-   pitch <= 110 when motor(0) = '1' and light = '1' else
-            99  when motor(3) = '1' and light = '1' else
-            62  when motor(6) = '1' and light = '1' else
-            -1 when reset = '1' or timer = 50000000 else
+   pitch <= 99 when motor(0) = '1' and light = '1' else
+            110  when motor(3) = '1' and light = '1' else
+            124 when motor(6) = '1' and light = '1' else
+            -1 when reset = '1' or timer = 9000000 else
             pitch; -- else
             ---1;
             countdown : process( clk )

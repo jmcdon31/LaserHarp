@@ -23,8 +23,8 @@ architecture arch of motorControl is
 -- 50Mhz / 200 hz  = 250000. So we only want to TOGGLE for half that time --
 signal clk200   : std_logic:='0';
 signal clk20    : std_logic:='0';
-signal counter1 : integer range 1 to 12500000:= 1;
-signal counter2 : integer range 1 to 1250000:= 1;
+signal counter1 : integer range 1 to 125000:= 1;
+signal counter2 : integer range 1 to 12500:= 1;
 signal motorpos : bit_vector( 6 downto 0 ) := "0000001";
 signal outdirection : std_logic := '1'; -- left =1 / 0 = right
 signal enstep : std_logic := '0';
@@ -36,11 +36,11 @@ begin
     if (rising_edge(clock)) then
       counter1 <= counter1 +1;
       counter2 <= counter2 +1;
-      if (counter1 = 12500000) then
+      if (counter1 = 125000) then
         counter1 <= 1;
         clk200 <= not clk200;
       end if ;
-      if (counter2 = 1250000) then
+      if (counter2 = 12500) then
         counter2 <= 1;
         clk20 <= not clk20;
       end if ;
